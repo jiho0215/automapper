@@ -9,14 +9,14 @@ namespace AutoMapperTests;
 [TestFixture]
 public class SingleClassToSingleClassTests
 {
-    private IMapper mapper;
+    private Mapper mapper;
 
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
         var config = new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile<AutoMapperProfile>();
+            cfg.AddProfile<SingleDepthClassProfile>();
         });
         mapper = new Mapper(config);
     }
@@ -44,17 +44,20 @@ public class SingleClassToSingleClassTests
         var applications = mapper.Map<IEnumerable<Application>>(appSheetRowDtos);
 
         //Assert:
-        Assert.That(applications.Count, Is.EqualTo(2));
-        Assert.That(applications.First().UniqueId, Is.EqualTo(appSheetRowDtos.First().UniqueId));
-        Assert.That(applications.Last().UniqueId, Is.EqualTo(appSheetRowDtos.Last().UniqueId));
-        Assert.That(applications.First().FirstName, Is.EqualTo(appSheetRowDtos.First().FirstName));
-        Assert.That(applications.Last().FirstName, Is.EqualTo(appSheetRowDtos.Last().FirstName));
-        Assert.That(applications.First().LastName, Is.EqualTo(appSheetRowDtos.First().LastName));
-        Assert.That(applications.Last().LastName, Is.EqualTo(appSheetRowDtos.Last().LastName));
-        Assert.That(applications.First().EmailAddress, Is.EqualTo(appSheetRowDtos.First().EmailAddress));
-        Assert.That(applications.Last().JobApplicationId.ToString(), Is.EqualTo(appSheetRowDtos.Last().JobApplicationId));
-        Assert.That(applications.Last().PhoneNumber.ToString(), Is.EqualTo(appSheetRowDtos.Last().PhoneNumber));
-        Assert.That(((DateTime)applications.Last().StartDate!).ToString("MM/dd/yyyy"), Is.EqualTo(appSheetRowDtos.Last().StartDate));
+        Assert.Multiple(() =>
+        {
+            Assert.That(applications.Count, Is.EqualTo(2));
+            Assert.That(applications.First().UniqueId, Is.EqualTo(appSheetRowDtos.First().UniqueId));
+            Assert.That(applications.Last().UniqueId, Is.EqualTo(appSheetRowDtos.Last().UniqueId));
+            Assert.That(applications.First().FirstName, Is.EqualTo(appSheetRowDtos.First().FirstName));
+            Assert.That(applications.Last().FirstName, Is.EqualTo(appSheetRowDtos.Last().FirstName));
+            Assert.That(applications.First().LastName, Is.EqualTo(appSheetRowDtos.First().LastName));
+            Assert.That(applications.Last().LastName, Is.EqualTo(appSheetRowDtos.Last().LastName));
+            Assert.That(applications.First().EmailAddress, Is.EqualTo(appSheetRowDtos.First().EmailAddress));
+            Assert.That(applications.Last().JobApplicationId.ToString(), Is.EqualTo(appSheetRowDtos.Last().JobApplicationId));
+            Assert.That(applications.Last().PhoneNumber.ToString(), Is.EqualTo(appSheetRowDtos.Last().PhoneNumber));
+            Assert.That(((DateTime)applications.Last().StartDate!).ToString("MM/dd/yyyy"), Is.EqualTo(appSheetRowDtos.Last().StartDate));
+        });
     }
 
     private AppSheetRowDto GetAppSheetRowDto()

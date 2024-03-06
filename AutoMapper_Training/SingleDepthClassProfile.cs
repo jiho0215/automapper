@@ -3,12 +3,12 @@ using AutoMapper_Training.SingleClassToSingleClass;
 
 namespace AutoMapper_Training;
 
-public class AutoMapperProfile : Profile
+public class SingleDepthClassProfile : Profile
 {
-    public AutoMapperProfile()
+    public SingleDepthClassProfile()
     {
         InitializeGlobalConfiguration();
-        AtoB_Profile();
+        MapperProfile();
     }
     private void InitializeGlobalConfiguration()
     {
@@ -59,11 +59,9 @@ public class AutoMapperProfile : Profile
         }
     }
 
-    private void AtoB_Profile()
+    private void MapperProfile()
     {
         CreateMap<AppSheetRowDto, Application>();
-        //CreateMap<WorkdayProgressUpdateRequest, Database.Models.Application>()
-        //    .ForMember(dest => dest.Candidate, opt => opt.MapFrom(src => src))
-        //    .ForMember(dest => dest.WorkdayProgress, opt => opt.MapFrom(src => src));
+        CreateMap<AppSheetRowDto, Application>();
     }
 }
